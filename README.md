@@ -19,7 +19,6 @@ npm install gamda-uom --save
 
 ## Example of usage:
 
-    import { pipe } from "ramda";
     import { Unit, add, mul, div } from "./index";
 
     // define your own units
@@ -61,7 +60,7 @@ npm install gamda-uom --save
 
 * When you create new units, try to use units from SI system whenever you can. So if you create units that are made of other units, define it that way. In example Newtons are (kg * m)/s^2, so don't create unit `{N: 1}`, instead create `{m: 1, kg: 1, s: -2}`. This way units are interchangable. If you don't do that, then you will have to create functions for explicit convertions.
 
-* Units that are just different scales of basic unit must be created separately for now. In example meters and inches. You should create convertion functions for them. For meters and millimeters there is a way to create meters in terms of millimeters like that: `type Meters = Unit<{mm: 3}>;` but this way your base metric unit will be mm, not m.
+* Units that are just different scales of basic unit must be created separately for now. In example meters and inches, or seconds and milliseconds. You should create convertion functions for them.
 
 * Functions defined in this lib are all curried manually, without any magic tricks. So in example add function must be used like that: `mul(3)(2) === 6`. It's made that way specifically for functional programmers. Auto currying made by other libs often generates problems with infering generic types.
 
