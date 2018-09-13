@@ -87,6 +87,9 @@ lte(1 as Meters)(2 as Meters);
 // @dts-jest:fail
 lte(1 as Meters)(2 as Seconds);
 
+// @dts-jest:pass
+takeMeters(mul(1.0 as Meters)(2.0 as Scalar));
+
 type Vec2<T extends number> = [T, T];
 const addVec2 = <T extends AnyUnit>(v1: Vec2<T>) => (v2: Vec2<T>): Vec2<T> => [add(v1[0])(v2[0]), add(v1[1])(v2[1])];
 
