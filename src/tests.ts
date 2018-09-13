@@ -1,5 +1,5 @@
 
-import { Unit, AnyUnit, Scalar, add, sub, mul, div, pow2, sqrt2, gt, gte, lt, lte } from "./index";
+import { Unit, AnyUnit, Scalar, add, sub, mul, div, pow2, sqrt2, eq, gt, gte, lt, lte, negate } from "./index";
 
 type Seconds = Unit<{s: 1}>;
 type Kg = Unit<{kg: 1}>;
@@ -62,6 +62,18 @@ sub(1 as Meters)(2 as Meters);
 
 // @dts-jest:fail
 sub(1 as Meters)(2 as Seconds);
+
+// @dts-jest:pass
+eq(1 as Meters)(2 as Meters);
+
+// @dts-jest:fail
+eq(1 as Meters)(2 as Seconds);
+
+// @dts-jest:pass
+takeMeters(negate(1 as Meters));
+
+// @dts-jest:fail
+takeMeters(negate(1 as Seconds));
 
 // @dts-jest:pass
 gt(1 as Meters)(2 as Meters);

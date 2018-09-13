@@ -15,7 +15,8 @@ npm install uom-ts --save
 * div
 * pow2
 * sqrt2
-* gt, gte, lt, lte
+* negate
+* eq, gt, gte, lt, lte
 
 ## Example of usage:
 

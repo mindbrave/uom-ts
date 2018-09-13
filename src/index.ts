@@ -134,7 +134,9 @@ export const mul = <A extends AnyUnit>(a: A) => <B extends AnyUnit>(b: B): Multi
 export const div = <A extends AnyUnit>(a: A) => <B extends AnyUnit>(b: B) => (a / b) as DivideUnits<A, B>;
 export const pow2 = <A extends AnyUnit>(a: A): MultiplyUnits<A, A> => mul(a)(a) as MultiplyUnits<A, A>;
 export const sqrt2 = <A extends AnyUnit>(a: A): SqrtUnit<A> => Math.sqrt(a) as SqrtUnit<A>;
+export const negate = <A extends AnyUnit>(a: A): A => -a as A;
 
+export const eq = <A extends AnyUnit>(a: A) => (b: A): boolean => a === b;
 export const gt = <A extends AnyUnit>(a: A) => (b: A): boolean => a > b;
 export const gte = <A extends AnyUnit>(a: A) => (b: A): boolean => a >= b;
 export const lt = <A extends AnyUnit>(a: A) => (b: A): boolean => a < b;
