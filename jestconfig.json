@@ -1,0 +1,5 @@
+{
+  "moduleFileExtensions": ["ts", "js", "json"],
+  "testRegex": "tests.ts$",
+  "transform": {"tests.ts": "dts-jest/transform"}
+}
