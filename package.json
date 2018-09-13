@@ -2,10 +2,10 @@
   "name": "uom-ts",
   "version": "0.1.0",
   "description": "Units of measure type safety, with no runtime overhead, supporting multiplication and division!",
-  "main": "./src/index.js",
-  "typings": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "typings": "./src/index.ts",
   "scripts": {
-    "prepublish": "npm test",
+    "prepublishOnly": "npm test",
     "test": "jest --config jestconfig.json"
   },
   "repository": {
@@ -24,17 +24,14 @@
   "bugs": {
     "url": "https://github.com/mindbrave/uom-ts/issues"
   },
-  "homepage": "https://github.com/mindbrave/gamda-uom#readme",
+  "homepage": "https://github.com/mindbrave/uom-ts#readme",
   "devDependencies": {
-    "@types/chai": "^4.1.4",
     "@types/jest": "^23.3.1",
-    "chai": "^4.1.2",
     "dts-jest": "^22.0.4",
     "jest": "^23.6.0",
-    "ts-jest": "^23.1.4",
-    "typescript": "^3.0.3"
+    "ts-jest": "^23.1.4"
   },
   "dependencies": {
-    "ramda": "^0.25.0"
+    "typescript": "^3.0.3"
   }
 }

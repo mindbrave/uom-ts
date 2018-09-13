@@ -1,11 +1,11 @@
 
-# Gamda [![Build Status](https://travis-ci.org/mindbrave/gamda-uom.svg?branch=master)](https://travis-ci.org/mindbrave/gamda-uom)
+# uom-ts [![Build Status](https://travis-ci.org/mindbrave/uom-ts.svg?branch=master)](https://travis-ci.org/mindbrave/uom-ts)
 
 Units of measure type safety, with no runtime overhead, supporting multiplication and division!
 
 ## Installation 
 ```sh
-npm install gamda-uom --save
+npm install uom-ts --save
 ```
 
 ## Supported operations:
@@ -19,7 +19,7 @@ npm install gamda-uom --save
 
 ## Example of usage:
 
-    import { Unit, add, mul, div } from "./index";
+    import { Unit, add, mul, div } from "uom-ts";
 
     // define your own units
     type Seconds = Unit<{s: 1}>;
@@ -27,7 +27,7 @@ npm install gamda-uom --save
     type MetersPerSeconds = Unit<{m: 1, s: -1}>;
     type Newtons = Unit<{m: 1, kg: 1, s: -2}>;
 
-    type PhysicalBody = {
+    interface PhysicalBody = {
         velocity: MetersPerSeconds,
         mass: Kg
     };
@@ -48,21 +48,21 @@ npm install gamda-uom --save
 ## Regulations
 
 * Units are created by specifing unit symbol and its exponent.
-    * `type Seconds = Unit<{s: 1}>` - meaning second^1 == second (time).
-    * `type MetersPerSquaredSeconds = Unit<{m: 1, s: -2}>` - meaning meters/seconds^2 (acceleration)
-    * `type Hertz = Unit<{s: -1}>` - 1/second (frequency).
+    * `type Seconds = Unit<{s: 1}>` - meaning second^1 (time).
+    * `type MetersPerSquaredSeconds = Unit<{m: 1, s: -2}>` - meaning meters^1/seconds^2 (acceleration)
+    * `type Hertz = Unit<{s: -1}>` - 1/second^1 (frequency).
 
-* You cannot assign zero exponent, because it's redundant, resolves to scalar 1 anyway.
+* You cannot assign zero exponent, because it's redundant, it resolves to 1 anyway.
 
 * For now only exponents in range <-4, 4> (integers without zero) are supported. That means that you can in example multiply cubic meters by meters, which will be m^4, but you cannot multiply cubic meters by squre meters, because it will be m^5 and over the range.
 
 * Multiplication, divide, pow and sqrt operations that you do with units must be made with functions defined in this lib or you will lose type along a way. It means that unfortunately in example external vector library won't work, but I will create one specifically for use with this lib.
 
-* When you create new units, try to use units from SI system whenever you can. So if you create units that are made of other units, define it that way. In example Newtons are (kg * m)/s^2, so don't create unit `{N: 1}`, instead create `{m: 1, kg: 1, s: -2}`. This way units are interchangable. If you don't do that, then you will have to create functions for explicit convertions.
+* When you create new units, try to use units from SI system whenever you can. So if you create units that are made of other units, define it that way. In example Newtons are (kg * m)/s^2, so don't create unit `{N: 1}`, instead create `{m: 1, kg: 1, s: -2}`. This way units are interchangable. If you don't do that, then you will have to create functions for explicit convertions. It's also important if you want to work with other libraries that use uom-ts, because if they will use 's' for seconds, and you will use something different, i.e. 'S', then your units won't match.
 
 * Units that are just different scales of basic unit must be created separately for now. In example meters and inches, or seconds and milliseconds. You should create convertion functions for them.
 
-* Functions defined in this lib are all curried manually, without any magic tricks. So in example add function must be used like that: `mul(3)(2) === 6`. It's made that way specifically for functional programmers. Auto currying made by other libs often generates problems with infering generic types.
+* Functions defined in this lib are all curried manually, without any magic tricks. So in example mul function must be used like that: `mul(3)(2) === 6`. It's made that way specifically for functional programmers. Auto currying made by other libs often generates problems with infering generic types.
 
 * If you want to make operation on some unit and scalar, you should cast that scalar as `Scalar` type, because operations are accepting only subtypes of AnyUnit type.
 
