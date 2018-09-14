@@ -29,9 +29,8 @@
     "@types/jest": "^23.3.1",
     "dts-jest": "^22.0.4",
     "jest": "^23.6.0",
-    "ts-jest": "^23.1.4"
-  },
-  "dependencies": {
+    "ts-jest": "^23.1.4",
     "typescript": "^3.0.3"
-  }
+  },
+  "dependencies": {}
 }
