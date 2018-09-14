@@ -37,14 +37,14 @@ import { Unit, mul, div } from "uom-ts";
 
 type Meters = Unit<{m: 1}>;
 type Seconds = Unit<{s: 1}>;
-type MetersPerSeconds = Unit<{m: 1, s: -1}>;
+type MetersPerSecond = Unit<{m: 1, s: -1}>;
 
-const speed: MetersPerSeconds = div(4 as Meters)(2 as Seconds); // ok -> 2m/s
-const speed2: MetersPerSeconds = div(4)(2); // error
-const speed3: MetersPerSeconds = div(4 as Seconds)(2 as Meters); // error
+const speed: MetersPerSecond = div(4 as Meters)(2 as Seconds); // ok -> 2m/s
+const speed2: MetersPerSecond = div(4)(2); // error
+const speed3: MetersPerSecond = div(4 as Seconds)(2 as Meters); // error
 
-const distance: Meters = mul(10 as MetersPerSeconds)(5 as Seconds); // ok -> 50m
-const distance2: Meters = mul(10 as MetersPerSeconds)(5); // error
+const distance: Meters = mul(10 as MetersPerSecond)(5 as Seconds); // ok -> 50m
+const distance2: Meters = mul(10 as MetersPerSecond)(5); // error
 
 ```
 
@@ -58,11 +58,11 @@ import { Unit, add, mul, div } from "uom-ts";
 // define your own units
 type Seconds = Unit<{s: 1}>;
 type Kg = Unit<{kg: 1}>;
-type MetersPerSeconds = Unit<{m: 1, s: -1}>;
+type MetersPerSecond = Unit<{m: 1, s: -1}>;
 type Newtons = Unit<{m: 1, kg: 1, s: -2}>;
 
 interface PhysicalBody = {
-    velocity: MetersPerSeconds,
+    velocity: MetersPerSecond,
     mass: Kg
 };
 
@@ -80,7 +80,7 @@ const applyForceError = (force: Newtons, duration: Seconds, body: PhysicalBody):
 
 const force = 10 as Newtons;
 const body = {
-    velocity: 0.0 as MetersPerSeconds,
+    velocity: 0.0 as MetersPerSecond,
     mass: 1.0 as Kg,
 };
 applyForce(force, 2.0 as Seconds, body); // returns body with velocity 20.0 m/s
@@ -101,11 +101,11 @@ applyForce(force, 2.0 as Seconds, body); // returns body with velocity 20.0 m/s
 * Units are created by specifing unit symbol and its exponent.
     ```typescript
         type Seconds = Unit<{s: 1}>; // second^1 (time).
-        type MetersPerSquaredSeconds = Unit<{m: 1, s: -2}>; // meters^1/seconds^2 (acceleration)
+        type MetersPerSquaredSecond = Unit<{m: 1, s: -2}>; // meters^1/seconds^2 (acceleration)
         type Hertz = Unit<{s: -1}>; // 1/second^1 (frequency)
     ```
 
-* When you initiliaze some const as an unit, you have to cast it against that unit so type system knows it's that unit. i.e. `const speed = 10.0 as MetersPerSeconds;`
+* When you initiliaze some const as an unit, you have to cast it against that unit so type system knows it's that unit. i.e. `const speed = 10.0 as MetersPerSecond;`
 
 * You cannot assign zero exponent when creating new unit, because it's redundant, it resolves to 1 anyway.
 
