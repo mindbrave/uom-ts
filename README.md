@@ -3,24 +3,56 @@
 
 Units of measure type safety, with no runtime overhead, supporting multiplication and division!
 
+## Why?
+
+Because we want to be sure that we did correct operations or that we passed value with correct unit as a parameter.
+
+In example you can by mistake put `Seconds` into function that takes `MilliSeconds`. In a standard scenario where you don't annotate numeric values with units, that bug would be not found until you will see that something takes 1000 times longer then it should. With annotated units TypeScript will tell you that you are puting wrong unit into function. There might be more subtle bugs, where you forget to divide by something that is a small value (in example `1.2`). Such bug will be really difficult to discover.
+
 ## Installation 
 ```sh
 npm install uom-ts --save
 ```
 
-## Supported operations:
-* add
-* sub
-* mul
-* div
-* pow2
-* sqrt2
-* negate
-* eq, gt, gte, lt, lte
+## Examples of usage:
 
-## Example of usage:
+Creating unit and assigning it.
 
 ```typescript
+import { Unit } from "uom-ts";
+
+type Kg = Unit<{kg: 1}>;
+type Pounds = Unit<{lb: 1}>;
+
+const mass: Kg = 1.0 as Kg; // ok
+
+const mass2: Kg = 1.0 as Pounds; // error
+const mass3: Kg = 1.0; // error
+```
+
+Types are able to correctly multiply and divide units for you!
+
+```typescript
+import { Unit, mul, div } from "uom-ts";
+
+type Meters = Unit<{m: 1}>;
+type Seconds = Unit<{s: 1}>;
+type MetersPerSeconds = Unit<{m: 1, s: -1}>;
+
+const speed: MetersPerSeconds = div(4 as Meters)(2 as Seconds); // ok -> 2m/s
+const speed2: MetersPerSeconds = div(4)(2); // error
+const speed3: MetersPerSeconds = div(4 as Seconds)(2 as Meters); // error
+
+const distance: Meters = mul(10 as MetersPerSeconds)(5 as Seconds); // ok -> 50m
+const distance2: Meters = mul(10 as MetersPerSeconds)(5); // error
+
+```
+
+Type system can warn you about invalid math, in example if you forget to divide force by mass to get acceleration.
+
+```typescript
+import { pipe } from "ramda";
+
 import { Unit, add, mul, div } from "uom-ts";
 
 // define your own units
@@ -40,10 +72,10 @@ const applyForce = (force: Newtons, duration: Seconds, body: PhysicalBody): Phys
     velocity: pipe(div(force), mul(duration), add(body.velocity))(body.mass)
 });
 
-// error below because you cant add speed to acceleration
+// error below because you can't add impulse to speed
 const applyForceError = (force: Newtons, duration: Seconds, body: PhysicalBody): PhysicalBody => ({
     ...body,
-    velocity: pipe(div(force), add(body.velocity))(body.mass)
+    velocity: pipe(mul(force), add(body.velocity))(duration)
 });
 
 const force = 10 as Newtons;
@@ -54,8 +86,17 @@ const body = {
 applyForce(force, 2.0 as Seconds, body); // returns body with velocity 20.0 m/s
 ```
 
+## Supported operations:
+* add
+* sub
+* mul
+* div
+* pow2
+* sqrt2
+* negate
+* eq, gt, gte, lt, lte
 
-## Docs
+## Regulations
 
 * Units are created by specifing unit symbol and its exponent.
     ```typescript
