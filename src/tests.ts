@@ -7,13 +7,15 @@ type Meters = Unit<{m: 1}>;
 type SquaredMeters = Unit<{m: 2}>;
 type CubicMeters = Unit<{m: 3}>;
 type Newtons = Unit<{m: 1, s: -2, kg: 1}>;
-type MetersPerSeconds = Unit<{m: 1, s: -1}>;
+type MetersPerSecond = Unit<{m: 1, s: -1}>;
+type SecondsPerMeter = Unit<{s: 1, m: -1}>;
 
 const takeSeconds = (seconds: Seconds): Seconds => seconds;
 const takeMeters = (meters: Meters): Meters => meters;
+const takeMetersPerSecond = (mps: MetersPerSecond): MetersPerSecond => mps;
 const takeSquaredMeters = (meters: SquaredMeters): SquaredMeters => meters;
 const takeCubicMeters = (meters: CubicMeters): CubicMeters => meters;
-const forceToSpeed = (force: Newtons, duration: Seconds, mass: Kg): MetersPerSeconds => mul(div(force)(mass))(duration);
+const forceToSpeed = (force: Newtons, duration: Seconds, mass: Kg) => mul(div(force)(mass))(duration);
 
 // @dts-jest:pass
 takeSeconds(1 as Seconds);
@@ -22,13 +24,25 @@ takeSeconds(1 as Seconds);
 takeSeconds(1 as Kg);
 
 // @dts-jest:pass
-const speed = forceToSpeed(4 as Newtons, 2 as Seconds, 8 as Kg);
+const speed: MetersPerSecond = forceToSpeed(4 as Newtons, 2 as Seconds, 8 as Kg);
 
 // @dts-jest:fail
-forceToSpeed(4 as MetersPerSeconds, 2 as Seconds, 8 as Kg);
+const distance: Meters = forceToSpeed(4 as Newtons, 2 as Seconds, 8 as Kg);
+
+// @dts-jest:fail
+forceToSpeed(4 as MetersPerSecond, 2 as Seconds, 8 as Kg);
 
 // @dts-jest:pass
 takeMeters(mul(speed)(1 as Seconds));
+
+// @dts-jest:pass
+takeMeters(div(mul(1 as Meters)(1 as Kg))(1 as Kg));
+
+// @dts-jest:pass
+takeMetersPerSecond(div(1 as Scalar)(1 as SecondsPerMeter));
+
+// @dts-jest:fail
+takeMeters(div(1 as Scalar)(1 as SecondsPerMeter));
 
 // @dts-jest:fail
 takeMeters(speed);
@@ -46,10 +60,10 @@ takeSquaredMeters(sqrt2(pow2(1 as SquaredMeters)));
 takeSquaredMeters(pow2(1 as SquaredMeters));
 
 // @dts-jest:pass
-const a: Meters = 1 as Meters;
+const meters: Meters = 1 as Meters;
 
 // @dts-jest:fail
-const b: Meters = 1 as MetersPerSeconds;
+const meters2: Meters = 1 as MetersPerSecond;
 
 // @dts-jest:pass
 add(1 as Meters)(2 as Meters);
@@ -118,7 +132,7 @@ addVec2([0 as Scalar, 0 as Scalar])([1 as Scalar, 1 as Scalar]);
 addVec2([0 as Newtons, 0 as Newtons])([1 as Newtons, 1 as Newtons]);
 
 // @dts-jest:fail
-addVec2([0 as Newtons, 0 as Newtons])([1 as MetersPerSeconds, 1 as MetersPerSeconds]);
+addVec2([0 as Newtons, 0 as Newtons])([1 as MetersPerSecond, 1 as MetersPerSecond]);
 
 // @dts-jest:fail Cannot do operation on exponents over 4
 takeCubicMeters(sqrt2(pow2(1 as CubicMeters)));

@@ -104,26 +104,29 @@ type DivideExponentsBy2<A extends Exponent> = (
 
 type SubtractExponents<A extends Exponent, B extends Exponent> = SumExponents<A, NegativeExponent<B>>;
 
-type Exact<A extends object> = A & {__kind: keyof A};
+type Exact<A extends object> = A & {__exactKeys: keyof A};
 
 export type AnyUnit = number & {
     [key:string]: Exponent,
 };
 
+type FilterPropsByValue<T, V> = { [K in keyof T]: T[K] extends V ? never : K }[keyof T];
+type FilterObjectByValue<T, V> = {[P in FilterPropsByValue<T, V>]: T[P]};
+
 export type Unit<A extends {[key:string]: Exponent}> = number & Exact<A>;
 
 type _MultiplyUnits<A extends AnyUnit, B extends AnyUnit> = {
-    [P in Exclude<keyof A | keyof B, keyof number>]: P extends keyof number ? undefined : P extends keyof A ? (P extends keyof B ? SumExponents<A[P], B[P]> : A[P]) : (P extends keyof B ? B[P] : never)
+    [P in Exclude<keyof A | keyof B, keyof number | "__exactKeys">]: P extends keyof A ? (P extends keyof B ? SumExponents<A[P], B[P]> : A[P]) : (P extends keyof B ? B[P] : never)
 }
-export type MultiplyUnits<A extends AnyUnit, B extends AnyUnit> = number & Exact<_MultiplyUnits<A, B>>;
+export type MultiplyUnits<A extends AnyUnit, B extends AnyUnit> = number & Exact<FilterObjectByValue<_MultiplyUnits<A, B>, undefined>>;
 
 type _DivideUnits<A extends AnyUnit, B extends AnyUnit> = {
-    [P in Exclude<keyof A | keyof B, keyof number>]: P extends keyof number ? undefined : P extends keyof A ? (P extends keyof B ? SubtractExponents<A[P], B[P]> : A[P]) : (P extends keyof B ? NegativeExponent<B[P]> : never)
+    [P in Exclude<keyof A | keyof B, keyof number | "__exactKeys">]: P extends keyof A ? (P extends keyof B ? SubtractExponents<A[P], B[P]> : A[P]) : (P extends keyof B ? NegativeExponent<B[P]> : never)
 };
-export type DivideUnits<A extends AnyUnit, B extends AnyUnit> = number & Exact<_DivideUnits<A, B>>;
+export type DivideUnits<A extends AnyUnit, B extends AnyUnit> = number & Exact<FilterObjectByValue<_DivideUnits<A, B>, undefined>>;
 
 export type SqrtUnit<A extends AnyUnit> = number & Exact<{
-    [P in Exclude<keyof A, keyof number | "__kind">]: DivideExponentsBy2<A[P]>
+    [P in Exclude<keyof A, keyof number | "__exactKeys">]: DivideExponentsBy2<A[P]>
 }>;
 
 export type Scalar = Unit<{}>;
