@@ -4,7 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.0] - 2018-12-24
+
+### Changed
+- Added uncurried functions to library as they are more common to use.
+- Renamed previous curried functions, in example: `add` renamed `addCurried` etc. Old names are taken by uncurried
+version of these functions. Appendix `Curried` might not be pleasent to see, but you can just aliast them on import
+like that: `import { mulCurried as mul } from "uom-ts";`
+- Updated documentation "force" example, now it uses remeda pipe instead of ramda which is much easier to understand.
 
 ## [0.3.0] - 2018-09-16
 

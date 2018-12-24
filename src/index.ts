@@ -131,16 +131,26 @@ export type SqrtUnit<A extends AnyUnit> = number & Exact<{
 
 export type Scalar = Unit<{}>;
 
-export const add = <T extends AnyUnit>(a: T) => (b: T): T => (a + b) as T;
-export const sub = <T extends AnyUnit>(a: T) => (b: T): T => (a - b) as T;
-export const mul = <A extends AnyUnit>(a: A) => <B extends AnyUnit>(b: B): MultiplyUnits<A, B> => (a * b) as MultiplyUnits<A, B>;
-export const div = <A extends AnyUnit>(a: A) => <B extends AnyUnit>(b: B) => (a / b) as DivideUnits<A, B>;
-export const pow2 = <A extends AnyUnit>(a: A): MultiplyUnits<A, A> => mul(a)(a) as MultiplyUnits<A, A>;
+export const addCurried = <T extends AnyUnit>(a: T) => (b: T): T => (a + b) as T;
+export const add = <T extends AnyUnit>(a: T, b: T): T => (a + b) as T;
+export const subCurried = <T extends AnyUnit>(a: T) => (b: T): T => (a - b) as T;
+export const sub = <T extends AnyUnit>(a: T, b: T): T => (a - b) as T;
+export const mulCurried = <A extends AnyUnit>(a: A) => <B extends AnyUnit>(b: B): MultiplyUnits<A, B> => (a * b) as MultiplyUnits<A, B>;
+export const mul = <A extends AnyUnit, B extends AnyUnit>(a: A, b: B): MultiplyUnits<A, B> => (a * b) as MultiplyUnits<A, B>;
+export const divCurried = <A extends AnyUnit>(a: A) => <B extends AnyUnit>(b: B) => (a / b) as DivideUnits<A, B>;
+export const div = <A extends AnyUnit, B extends AnyUnit>(a: A, b: B) => (a / b) as DivideUnits<A, B>;
+export const pow2 = <A extends AnyUnit>(a: A): MultiplyUnits<A, A> => mul(a, a) as MultiplyUnits<A, A>;
 export const sqrt2 = <A extends AnyUnit>(a: A): SqrtUnit<A> => Math.sqrt(a) as SqrtUnit<A>;
 export const negate = <A extends AnyUnit>(a: A): A => -a as A;
 
-export const eq = <A extends AnyUnit>(a: A) => (b: A): boolean => a === b;
-export const gt = <A extends AnyUnit>(a: A) => (b: A): boolean => a > b;
-export const gte = <A extends AnyUnit>(a: A) => (b: A): boolean => a >= b;
-export const lt = <A extends AnyUnit>(a: A) => (b: A): boolean => a < b;
-export const lte = <A extends AnyUnit>(a: A) => (b: A): boolean => a <= b;
+export const eq = <A extends AnyUnit>(a: A, b: A): boolean => a === b;
+export const gt = <A extends AnyUnit>(a: A, b: A): boolean => a > b;
+export const gte = <A extends AnyUnit>(a: A, b: A): boolean => a >= b;
+export const lt = <A extends AnyUnit>(a: A, b: A): boolean => a < b;
+export const lte = <A extends AnyUnit>(a: A, b: A): boolean => a <= b;
+
+export const eqCurried = <A extends AnyUnit>(a: A) => (b: A): boolean => a === b;
+export const gtCurried = <A extends AnyUnit>(a: A) => (b: A): boolean => a > b;
+export const gteCurried = <A extends AnyUnit>(a: A) => (b: A): boolean => a >= b;
+export const ltCurried = <A extends AnyUnit>(a: A) => (b: A): boolean => a < b;
+export const lteCurried = <A extends AnyUnit>(a: A) => (b: A): boolean => a <= b;
