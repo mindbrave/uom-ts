@@ -1,6 +1,6 @@
 {
   "name": "uom-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Units of measure type safety, with no runtime overhead, supporting multiplication and division!",
   "main": "./src/index.ts",
   "typings": "./src/index.ts",
