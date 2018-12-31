@@ -2,11 +2,12 @@
   "name": "uom-ts",
   "version": "1.0.1",
   "description": "Units of measure type safety, with no runtime overhead, supporting multiplication and division!",
-  "main": "./src/index.ts",
-  "typings": "./src/index.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "scripts": {
-    "prepublishOnly": "npm test",
-    "test": "jest --config jestconfig.json"
+    "prepublishOnly": "npm test && npm run build",
+    "test": "jest --config jestconfig.json",
+    "build": "./node_modules/.bin/tsc"
   },
   "repository": {
     "type": "git",

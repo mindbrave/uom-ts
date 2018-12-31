@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "target": "es6",
+      "target": "es5",
       "module": "commonjs",
       "declaration": true,
       "outDir": "./dist",
@@ -8,5 +8,5 @@
       "noImplicitReturns": true
     },
     "include": ["src"],
-    "exclude": ["node_modules", ]
+    "exclude": ["node_modules", "src/tests.ts"]
   }

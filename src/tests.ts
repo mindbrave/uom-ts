@@ -29,6 +29,7 @@ const takeMetersPerSecond = (mps: MetersPerSecond): MetersPerSecond => mps;
 const takeSquaredMeters = (meters: SquaredMeters): SquaredMeters => meters;
 const takeCubicMeters = (meters: CubicMeters): CubicMeters => meters;
 const forceToSpeed = (force: Newtons, duration: Seconds, mass: Kg) => mul(div(force, mass), duration);
+const takeScalar = (scale: Scalar): Scalar => scale;
 
 // @dts-jest:pass
 takeSeconds(1 as Seconds);
@@ -62,6 +63,12 @@ takeMetersPerSecond(divCurried(1 as Scalar)(1 as SecondsPerMeter));
 
 // @dts-jest:fail
 takeMeters(div(1 as Scalar, 1 as SecondsPerMeter));
+
+// @dts-jest:pass
+takeScalar(div(1 as Scalar, 2 as Scalar));
+
+// @dts-jest:pass
+takeScalar(div(1 as Seconds, 2 as Seconds));
 
 // @dts-jest:fail
 takeMeters(speed);
