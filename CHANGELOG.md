@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2020-09-05
+
+### Changed
+- Removed need for Scalar unit, now you can just use plain numbers
+- Removed "curried" versions of functions and added overloads for partial application for "ordinary" functions
+- Increased exponents range to <-6, 6> from <-4, 4>
+- Updated documentation, more examples.
+- Now supported TS 4.0
+
+### Fixed
+
+- Library didn't work for TS versions over 3.0.4, now it supports TS versions up to at least 4.0.
+
 ## [1.1.0] - 2018-12-31
 
 ### Changed
