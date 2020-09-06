@@ -42,7 +42,7 @@ npm install uom-ts
 
 ## TypeScript version
 
-Tested for versions from 3.0 to 4.0, but should work for all 4.x versions unless there will be backward compatible changes.
+Tested for versions from 3.0 to 4.0, but should work for all 4.x versions unless there will be backward incompatible changes like it happened in 3.x.
 
 ## Examples of usage:
 
@@ -83,7 +83,7 @@ Type system can warn you about invalid math, in example if you forget to divide 
 ```typescript
 import { pipe } from "remeda";
 
-import { Unit, addCurried as add, mulCurried as mul, divCurried as div } from "uom-ts";
+import { Unit, add, mul, div } from "uom-ts";
 
 // define your own units
 type Seconds = Unit<{s: 1}>;
@@ -125,14 +125,22 @@ applyForce(force, 2.0 as Seconds, body); // returns body with velocity 20.0 m/s
 * sub
 * mul
 * div
+* mod
 * pow2
 * sqrt2
 * negate
+* abs
 * eq
 * gt
 * gte
 * lt
 * lte
+* floor
+* ceil
+* round
+* max
+* min
+* sum
 
 All operation functions can be partially applied if you preffer more functional style. Have in mind that for operations where arguments order does matter, when you partially applies them then order of arguments is reversed. In example:
 
@@ -143,6 +151,8 @@ sub(5 as Meters)(2 as Meters) === -3 as Meters
 
 pipe(5 as Meters, sub(2 as Meters)) === 3 as Meters
 ```
+
+Functions that takes array of values like `max`, `min` and `sum`, takes only non empty arrays, but since TypeScript doesn't know if array is empty or not, you have to check it with guard function `isArrayNonEmpty` (which is included in lib) before passing it.
 
 ## Regulations
 

@@ -261,10 +261,23 @@ export function div<T extends AnyUnit>(...args: T[]) {
     return (v: T): T => (v / args[0]) as T;
 };
 
+export function mod<A extends AnyUnit>(a: A, b: A): A;
+export function mod<A extends AnyUnit>(a: A): (b: A) => A;
+export function mod<A extends AnyUnit>(...args: A[]) {
+    if (args.length === 2) {
+        return (args[0] % args[1]) as A;
+    };
+    return (v: A): A => (v % args[0]) as A;
+};
 
 export const pow2 = <A extends AnyUnit>(a: A): MultiplyUnits<A, A> => mul(a, a);
 export const sqrt2 = <A extends AnyUnit>(a: A): SqrtUnit<A> => Math.sqrt(a) as SqrtUnit<A>;
 export const negate = <A extends AnyUnit>(a: A): A => -a as A;
+export const abs = <A extends AnyUnit>(a: A): A => Math.abs(a) as A;
+
+export const floor = <A extends AnyUnit>(a: A): A => Math.floor(a) as A;
+export const ceil = <A extends AnyUnit>(a: A): A => Math.ceil(a) as A;
+export const round = <A extends AnyUnit>(a: A): A => Math.round(a) as A;
 
 export function eq<A extends AnyUnit>(a: A, b: A): boolean;
 export function eq<A extends AnyUnit>(a: A): (b: A) => boolean;
@@ -310,3 +323,11 @@ export function lte<T extends AnyUnit>(...args: T[]) {
     };
     return (v: T): boolean => v <= args[0];
 };
+
+export type NonEmptyArray<T> = [T, ...T[]];
+
+export const isArrayNonEmpty = <T>(a: T[]): a is NonEmptyArray<T> => a.length > 0;
+
+export const max = <T extends AnyUnit>(a: NonEmptyArray<T>): T => Math.max(...a) as T;
+export const min = <T extends AnyUnit>(a: NonEmptyArray<T>): T => Math.min(...a) as T;
+export const sum = <T extends AnyUnit>(a: NonEmptyArray<T>): T => a.reduce(add);
