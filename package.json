@@ -1,6 +1,6 @@
 {
   "name": "uom-ts",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Units of measure type safety, with no runtime overhead, supporting multiplication and division!",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -30,9 +30,8 @@
     "@types/jest": "^23.3.1",
     "dts-jest": "^23.3.0",
     "jest": "^23.6.0",
-    "ts-jest": "^23.1.4"
-  },
-  "dependencies": {
+    "ts-jest": "^23.1.4",
     "typescript": "^4.0.2"
-  }
+  },
+  "dependencies": {}
 }
